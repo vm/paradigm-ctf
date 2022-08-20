@@ -3,6 +3,7 @@
 pragma solidity 0.8.16;
 
 import "./MasterChefHelper.sol";
+import "forge-std/console2.sol";
 
 interface WETH9 is ERC20Like {
     function deposit() external payable;
@@ -17,6 +18,8 @@ contract Setup {
         mcHelper = new MasterChefHelper();
         weth.deposit{value: 10 ether}();
         weth.transfer(address(mcHelper), 10 ether); // whoops
+        console2.log(weth.balanceOf(address(this)));
+        console2.log(weth.balanceOf(address(mcHelper)));
     }
 
     function getAddress() external returns (address) {

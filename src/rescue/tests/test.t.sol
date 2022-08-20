@@ -21,7 +21,7 @@ contract ContractTest is Test {
 
       uni = ERC20(0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984);
       vm.prank(0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984);
-      uni.transfer(address(this), 20000);
+      uni.transfer(address(this), 1000 * 10**18);
       s = new Setup{value: 10 ether}();
 
       uni.approve(s.getAddress(), type(uint256).max);
@@ -29,6 +29,6 @@ contract ContractTest is Test {
 
       ourHelper = MasterChefHelper(s.getAddress());
 
-      ourHelper.swapTokenForPoolToken(1, address(uni), 2, 1);
+      ourHelper.swapTokenForPoolToken(1, address(uni), 1000 * 10**18, 0);
     }
 }

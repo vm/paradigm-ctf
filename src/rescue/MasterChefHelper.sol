@@ -27,17 +27,20 @@ contract MasterChefHelper {
     UniswapV2RouterLike public constant router = UniswapV2RouterLike(0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F);
 
     function swapTokenForPoolToken(uint256 poolId, address tokenIn, uint256 amountIn, uint256 minAmountOut) external {
-        console2.log("HI");
         (address lpToken,,,) = masterchef.poolInfo(poolId);
         address tokenOut0 = UniswapV2PairLike(lpToken).token0();
         address tokenOut1 = UniswapV2PairLike(lpToken).token1();
+        console2.log("TOKEN OUT 0", tokenOut0);
+        console2.log("TOKEN OUT 1", tokenOut1);
+        console2.log("TOKEN IN", tokenIn);
 
         ERC20Like(tokenIn).approve(address(router), type(uint256).max);
         ERC20Like(tokenOut0).approve(address(router), type(uint256).max);
         ERC20Like(tokenOut1).approve(address(router), type(uint256).max);
         ERC20Like(tokenIn).transferFrom(msg.sender, address(this), amountIn);
 
-        console2.log(ERC20Like(tokenIn).balanceOf(address(this)));
+        console2.log("HI");
+        console2.log(amountIn / 2);
 
         // swap for both tokens of the lp pool
         _swap(tokenIn, tokenOut0, amountIn / 2);
@@ -65,12 +68,17 @@ contract MasterChefHelper {
         address[] memory path = new address[](2);
         path[0] = tokenIn;
         path[1] = tokenOut;
+
+        console2.log(address(this));
+        console2.log(block.timestamp);
+
         router.swapExactTokensForTokens(
             amountIn,
             0,
             path,
             address(this),
-            block.timestamp
+            block.timestamp + 1000
         );
+        console2.log("DONE");
     }
 }
