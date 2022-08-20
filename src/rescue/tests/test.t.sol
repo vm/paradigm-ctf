@@ -26,6 +26,9 @@ contract ContractTest is Test {
 
       uni.approve(s.getAddress(), type(uint256).max);
       // console2.log(uni.balanceOf(address(this)));
+
+      ourHelper = MasterChefHelper(s.getAddress());
+
       ourHelper.swapTokenForPoolToken(1, address(uni), 2, 1);
     }
 }
